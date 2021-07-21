@@ -302,7 +302,17 @@ class Resnet50CtlBenchmarkBase(CtlBenchmark):
     FLAGS.use_tf_while_loop = False
     FLAGS.single_l2_loss_op = True
     self._run_and_report_benchmark()
+  
+  def benchmark_1_gpu_custom(self):
+    """Test Keras model with 1 GPU."""
+    self._setup()
 
+    FLAGS.num_gpus = 1
+    FLAGS.distribution_strategy = 'one_device'
+    FLAGS.model_dir = self._get_model_dir('benchmark_1_gpu')
+    FLAGS.batch_size = 64
+    self._run_and_report_benchmark()
+    
   def benchmark_8_gpu(self):
     """Test Keras model with 8 GPUs."""
     self._setup()
